@@ -1,0 +1,9 @@
+﻿CREATE TABLE [dbo].[Table]
+(
+	[id] INT IDENTITY (1, 1) NOT NULL, 
+	[nombre] NVARCHAR (32) NOT NULL, 
+	[nif] NVARCHAR (16) NOT NULL, 
+	[edad] INT NOT NULL, 
+	PRIMARY KEY CLUSTERED ([id] ASC), 
+	UNIQUE NONCLUSTERED ([nif] ASC)
+)
