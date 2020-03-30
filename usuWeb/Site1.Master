@@ -11,14 +11,11 @@
         <h1 style="font-size:medium">
             Gabriel De Lamo Dutra - 45929352P
         </h1>
-        <h1 style=  "background-color:deepskyblue; height: 133px; text-align:center;" > 
-            HADA-P3 Curso 2019-2020
+        <h1 style=  "background-color:deepskyblue; height: 110px; text-align:center;" > 
+           <br /> HADA-P3 Curso 2019-2020
         </h1>
         <form id="form1" runat="server">
-            <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
-
-
-            </asp:ContentPlaceHolder>
+            <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
         </form>
         
     </body>
