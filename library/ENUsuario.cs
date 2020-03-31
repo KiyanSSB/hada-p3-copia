@@ -9,7 +9,7 @@ using System.Configuration;
 
 namespace library
 {
-    class ENUsuario
+    public class ENUsuario
     {
         private string nif;
         private string nombre;
@@ -60,17 +60,29 @@ namespace library
             }
         }
 
-
+        /// <summary>
+        /// Constructor por defecto de la clase
+        /// </summary>
         public ENUsuario()
         {
 
         }
+        
+        /// <summary>
+        /// Constructor con parámetros de la clase
+        /// </summary>
+        /// <param name="nif">El nif a registrar</param>
+        /// <param name="nombre">Nombre asociado a un nif</param>
+        /// <param name="edad">Edad asociada a un nif</param>
         public ENUsuario(string nif, string nombre, int edad)
         {
             this.nif = nif;
             this.nombre = nombre;
             this.edad = edad;
         }
+
+
+        //--------------------- C
 
         /// <summary>
         /// Guarda este usuario en la BD.
@@ -82,7 +94,12 @@ namespace library
         public bool createUsuario()
         {
             CADUsuario cad = new CADUsuario();
+            return cad.createUsuario(this);
         }
+
+
+        //--------------------- R
+
 
         /// <summary>
         /// Recupera el usuario indicado de la BD. 
@@ -93,7 +110,8 @@ namespace library
         /// </returns>
         public bool readUsuario()
         {
-
+            CADUsuario cad = new CADUsuario();
+            return cad.readUsuario(this);
         }
 
         /// <summary>
@@ -105,7 +123,8 @@ namespace library
         /// </returns>
         public bool readFirstUsuario()
         {
-
+            CADUsuario cad = new CADUsuario();
+            return cad.readFirstUsuario(this);
         }
 
         /// <summary>
@@ -117,7 +136,8 @@ namespace library
         /// </returns>
         public bool readNextUsuario()
         {
-
+            CADUsuario cad = new CADUsuario();
+            return cad.readNextUsuario(this);
         }
 
         /// <summary>
@@ -129,8 +149,13 @@ namespace library
         /// </returns>
         public bool readPrevUsuario()
         {
-
+            CADUsuario cad = new CADUsuario();
+            return cad.readPrevUsuario(this);
         }
+
+
+        //--------------------- U
+
 
         /// <summary>
         /// ​Actualiza este usuario en la BD.
@@ -141,8 +166,13 @@ namespace library
         /// </returns>
         public bool updateUsuario()
         {
-
+            CADUsuario cad = new CADUsuario();
+            return cad.updateUsuario(this);
         }
+
+
+        //--------------------- D
+
 
         /// <summary>
         /// ​Borra este usuario de la BD.
@@ -153,7 +183,8 @@ namespace library
         /// </returns>
         public bool deleteUsuario()
         {
-
+            CADUsuario cad = new CADUsuario();
+            return cad.deleteUsuario(this);
         }
     }
 }
