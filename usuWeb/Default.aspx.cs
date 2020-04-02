@@ -206,11 +206,6 @@ namespace usuWeb
         /// <param name="e"></param>
         protected void btnLeerPrimero_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(TextBoxNIF.Text))
-            {
-                printError_Unfit_Data();
-                return;
-            }
             ENUsuario en = new ENUsuario();
             if (en.readFirstUsuario())
             {
