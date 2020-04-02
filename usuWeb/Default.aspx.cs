@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using library; //Añadimos la librería para poder utilizar los EN y CAD correspondientes
 
 namespace usuWeb
@@ -15,7 +10,7 @@ namespace usuWeb
 
         }
 
-        //-----------------------------------------    FUNCIONES AUXILIARES    --------------------------------------------------------------------
+        //-----------------------------------------    Funciones de ERROR     --------------------------------------------------------------------
 
         /// <summary>
         /// Función que printea el borrado de un usuario
@@ -98,8 +93,95 @@ namespace usuWeb
             InformationLbl.Text = "ERROR, No se ha encontrado ningún valor en la tabla";
         }
        
+        /// <summary>
+        /// Función que muestra un mensaje cuando no se encuentra un valor numérico en la edad
+        /// </summary>
+        protected void printError_Edad_Not_Number()
+        {
+            InformationLbl.Text = "ERROR, El campo Edad no contiene un número";
+        }
         
-        //-----------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Función que printea un error cuando se introduce un NIF con menos de 9 elementos
+        /// </summary>
+        protected void printError_Incorrect_Nif()
+        {
+            InformationLbl.Text = "ERROR, el NIF introducido no es válido";
+        }
+        
+        /// <summary>
+        /// Función que comprueba si el nif contiene el tamaño adecuado 
+        /// </summary>
+        protected void printError_NIF_Too_Small()
+        {
+            InformationLbl.Text = "Tamaño del Nif demasiado pequeño, introduzca 8 dígitos y una letra";
+        }
+
+        /// <summary>
+        /// Función que comprueba si la última posición del NIF contiene una letra
+        /// </summary>
+        protected void printError_Last_Not_Letter()
+        {
+            InformationLbl.Text = "ERROR, La última parte del NIF no es una letra";
+        }
+       
+        
+        //------------------------------------- Checkers de los cuadros de texto --------------------------------------
+
+
+        /// <summary>
+        /// Función que comprueba si la edad es un número
+        /// </summary>
+        /// <returns>false si es erronea</returns>
+        protected bool check_Edad()
+        {
+            bool number = false;
+            number = int.TryParse(TextBoxEdad.Text, out int n);
+
+            if (!number)
+            {
+                printError_Edad_Not_Number();
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Función que comprueba si alguno de los cuadros de texto está vacío 
+        /// </summary>
+        /// <returns></returns>
+        protected bool check_empty()
+        {
+            if (string.IsNullOrWhiteSpace(TextBoxNIF.Text) || string.IsNullOrWhiteSpace(TextBoxNombre.Text) || string.IsNullOrWhiteSpace(TextBoxEdad.Text))
+            {
+                printError_Unfit_Data();
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Función que comprueba que el tamaño del nif es correcto y que contiene una letra en su última posición
+        /// </summary>
+        /// <returns></returns>
+        protected bool check_Nif()
+        {
+            if(TextBoxNIF.Text.Length < TextBoxNIF.MaxLength)
+            {
+                printError_NIF_Too_Small();
+                return false;
+            }
+
+            if (!char.IsLetter(TextBoxNIF.Text[8]))
+            {
+                printError_Last_Not_Letter();
+                return false;
+            }
+            return true;
+        }
+
+
+        //----------------------------------------------      R        ------------------------------------------------
 
         /// <summary>
         /// Función que muestra los valores asociados a un NIF en la tabla
@@ -132,6 +214,11 @@ namespace usuWeb
         /// <param name="e"></param>
         protected void btnLeerPrimero_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(TextBoxNIF.Text))
+            {
+                printError_Unfit_Data();
+                return;
+            }
             ENUsuario en = new ENUsuario();
             if (en.readFirstUsuario())
             {
@@ -190,7 +277,7 @@ namespace usuWeb
         }
 
         
-        //------------------------------------------------------------------------------------------------------------
+        //----------------------------------------    CUD     ------------------------------------------------
 
 
         /// <summary>
@@ -200,12 +287,11 @@ namespace usuWeb
         /// <param name="e"></param>
         protected void btnCrear_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(TextBoxNIF.Text) || string.IsNullOrWhiteSpace(TextBoxNombre.Text) || string.IsNullOrWhiteSpace(TextBoxEdad.Text))
+            if (!check_empty() || !check_Nif() || !check_Edad())
             {
-                printError_Unfit_Data();
                 return;
             }
-                    
+        
             ENUsuario en = new ENUsuario(TextBoxNIF.Text, TextBoxNombre.Text, int.Parse(TextBoxEdad.Text));
 
             if (en.createUsuario())

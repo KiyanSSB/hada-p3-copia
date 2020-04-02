@@ -4,7 +4,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
         <h1 style="font-size:xx-large">Página de usuarios</h1>
         <h2 style="font-family: Arial; font-size:medium"> 
-            Nif:   <asp:TextBox ID="TextBoxNIF" runat="server" Text=""></asp:TextBox>
+            Nif:   <asp:TextBox ID="TextBoxNIF" runat="server" Text="" MaxLength="9"></asp:TextBox>
         </h2>
         <h2 style="font-family: Arial; font-size:medium">
             Nombre: <asp:TextBox ID="TextBoxNombre" runat="server" Text=""></asp:TextBox>
@@ -23,7 +23,7 @@
         <br />
         <br />
         <br />
-        <asp:Label ID="InformationLbl" runat="server" Text=""></asp:Label>
+        <asp:Label ID="InformationLbl" runat="server" Text="" BackColor="White" BorderColor="#6699FF" BorderStyle="Groove"></asp:Label>
         
 </asp:Content>
 
