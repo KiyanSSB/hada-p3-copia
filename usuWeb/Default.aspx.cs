@@ -100,15 +100,7 @@ namespace usuWeb
         {
             InformationLbl.Text = "ERROR, El campo Edad no contiene un número";
         }
-        
-        /// <summary>
-        /// Función que printea un error cuando se introduce un NIF con menos de 9 elementos
-        /// </summary>
-        protected void printError_Incorrect_Nif()
-        {
-            InformationLbl.Text = "ERROR, el NIF introducido no es válido";
-        }
-        
+               
         /// <summary>
         /// Función que comprueba si el nif contiene el tamaño adecuado 
         /// </summary>
