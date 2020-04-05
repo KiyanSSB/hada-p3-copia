@@ -202,35 +202,67 @@ namespace library
         public bool readPrevUsuario(ENUsuario en)
         {
             SqlConnection c = new SqlConnection(constring);
-            string nif = en.nifUser;
-            bool found = false;
+            string nif;
+            bool primero = false;
+            bool encontrado = false;
+            ENUsuario aux = new ENUsuario();
+            
             try
             {
+             
                 c.Open();
                 SqlCommand command = new SqlCommand("Select * from Usuarios", c);
                 SqlDataReader dr = command.ExecuteReader();
 
                 while (dr.Read())
                 {
-                    if(nif == dr["nif"].ToString())
+                    //Comprobamos si el nif es igual al que buscamos
+                    nif = dr["nif"].ToString();
+                    if(nif == en.nifUser)
                     {
-                        found = true;
+                        //Si primero es false en la primera iteración devuelve falso puesto que no hay un elemento antes que el primero
+                        if(!primero)
+                        {
+                            c.Close();
+                            dr.Close();
+                            return false;
+                        }
+                        //Colocamos encontrado a true puesto que es nuestro nif y guardamos los valores auxiliares en el original para devolverlo
+                        encontrado = true;
+                        en.nifUser = aux.nifUser;
+                        en.nombreUser = aux.nombreUser;
+                        en.edadUser = aux.edadUser;
+                        c.Close();
+                        dr.Close();
+                        return true;
                     }
-                    if (!found)
+                    else
                     {
-                        en.nifUser = dr["nif"].ToString();
-                        en.edadUser = int.Parse(dr["edad"].ToString());
-                        en.nombreUser = dr["nombre"].ToString();
+                        aux.nifUser = dr["nif"].ToString();
+                        aux.nombreUser = dr["nombre"].ToString();
+                        aux.edadUser = int.Parse(dr["edad"].ToString());
+                        primero = true;
                     }
                 }
 
+                c.Close();
+                dr.Close();
+
+                //Si no encontramos el NIF , devolvemos falso
+                if (!encontrado)
+                {
+                    return false;
+                }
+
                 //Para controlar el primer elemento, se puede controlar de mejor manera, pero es mucho más enrevesado que comprobar si se devuelven datos vacíos para ese caso
-                if(string.IsNullOrWhiteSpace(en.nombreUser) || (en.edadUser == 0)){
+                if (string.IsNullOrWhiteSpace(en.nombreUser) || (en.edadUser == 0))
+                {
                     dr.Close();
                     c.Close();
                     return false;
                 }
-                return true;    
+                return true;
+
             }catch (SqlException e)
             {
                 Console.WriteLine("User operation has failed. Error {0} ", e.Message);
@@ -282,10 +314,6 @@ namespace library
             c.Open();
             try
             {
-                if (!readUsuario(en))
-                {
-                    return false;
-                }
                 SqlCommand command2 = new SqlCommand("Delete from Usuarios where nif = '" + en.nifUser + "'", c);
                     command2.ExecuteNonQuery();
                     c.Close();

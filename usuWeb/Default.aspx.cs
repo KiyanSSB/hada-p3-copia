@@ -230,6 +230,8 @@ namespace usuWeb
                 return;
             }
             ENUsuario en = new ENUsuario(TextBoxNIF.Text, "", 0);
+
+
             if (en.readPrevUsuario())
             {
                 print_Valores(en);
